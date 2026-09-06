@@ -1,0 +1,635 @@
+/* ==========================================================================
+   VaxCare - Child Vaccination Management System (Hospital Portal)
+   Exact match to VaxCare Admin UI Theme (Light & Dark Mode)
+   ========================================================================== */
+
+:root {
+  --vax-primary: #2563eb;          /* VaxCare Signature Blue */
+  --vax-primary-hover: #1d4ed8;
+  --vax-dark-sidebar: #111827;     /* Deep Navy Sidebar */
+  --vax-dark-sidebar-hover: #1f2937;
+  --vax-sidebar-active: #2563eb;
+  --vax-bg: #f3f4f6;              /* Soft Gray Background */
+  --vax-card-bg: #ffffff;
+  --vax-text-main: #1e293b;
+  --vax-text-muted: #64748b;
+  --vax-border: #e2e8f0;
+  --vax-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  --vax-shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+}
+
+/* Dark Mode Theme */
+[data-bs-theme="dark"] {
+  --vax-bg: #0b1120;              /* Deep Navy Dark Theme */
+  --vax-card-bg: #1e293b;
+  --vax-text-main: #f8fafc;
+  --vax-text-muted: #94a3b8;
+  --vax-border: #334155;
+  --vax-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --vax-shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--vax-bg);
+  color: var(--vax-text-main);
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* App Wrapper */
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--vax-bg);
+}
+
+/* ==========================================================================
+   VaxCare Sidebar (Exact match to Admin Theme)
+   ========================================================================== */
+.sidebar {
+  width: 255px;
+  background: var(--vax-dark-sidebar);
+  color: #94a3b8;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  z-index: 1040;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar .brand {
+  padding: 1.25rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-decoration: none;
+}
+
+.brand-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vax-logo-shield {
+  width: 32px;
+  height: 32px;
+  background: #2563eb;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.15rem;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+}
+
+.brand-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.brand-hamburger {
+  color: #64748b;
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.sidebar-nav {
+  padding: 1rem 0.75rem;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.sidebar-heading {
+  font-size: 0.675rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  padding: 0.85rem 0.75rem 0.4rem;
+  font-weight: 700;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  color: #94a3b8;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-link .link-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sidebar-link i {
+  font-size: 1.1rem;
+}
+
+.sidebar-link:hover {
+  background: var(--vax-dark-sidebar-hover);
+  color: #ffffff;
+}
+
+.sidebar-link.active {
+  background: var(--vax-sidebar-active);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.badge-pill-count {
+  font-size: 0.7rem;
+  padding: 0.2em 0.55em;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.badge-pill-orange {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.badge-pill-red {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.sidebar-link.logout-link {
+  color: #f87171;
+  margin-top: 1rem;
+}
+
+.sidebar-link.logout-link:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+}
+
+/* ==========================================================================
+   VaxCare Topbar (Exact match to Admin Theme)
+   ========================================================================== */
+.top-navbar {
+  background: var(--vax-card-bg);
+  border-bottom: 1px solid var(--vax-border);
+  padding: 0.75rem 1.75rem;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+.portal-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--vax-text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.portal-tag i {
+  color: #2563eb;
+  font-size: 1rem;
+}
+
+.top-pill-btn {
+  background: var(--vax-card-bg);
+  border: 1px solid var(--vax-border);
+  color: var(--vax-text-main);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+}
+
+.theme-toggle-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--vax-border);
+  background: var(--vax-card-bg);
+  color: var(--vax-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  color: var(--vax-primary);
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.user-profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.user-avatar-circle {
+  width: 34px;
+  height: 34px;
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+.user-name-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--vax-text-main);
+}
+
+/* ==========================================================================
+   VaxCare Colorful Stat Tiles (Image 4 & Image 2)
+   ========================================================================== */
+.stat-card-vax {
+  background: var(--vax-card-bg);
+  border: 1px solid var(--vax-border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: var(--vax-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card-vax:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--vax-shadow-card);
+}
+
+.stat-tile-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.stat-tile-blue { background: #2563eb; }
+.stat-tile-cyan { background: #0ea5e9; }
+.stat-tile-green { background: #22c55e; }
+.stat-tile-purple { background: #8b5cf6; }
+.stat-tile-orange { background: #f59e0b; }
+.stat-tile-red { background: #ef4444; }
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.775rem;
+  color: var(--vax-text-muted);
+  font-weight: 600;
+}
+
+.stat-number {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--vax-text-main);
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   Top Alert Banner with Left Accent (Exact match to Image 4)
+   ========================================================================== */
+.alert-banner-vax {
+  background: var(--vax-card-bg);
+  border: 1px solid var(--vax-border);
+  border-left: 4px solid #ef4444;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--vax-shadow);
+  margin-bottom: 1.5rem;
+}
+
+.alert-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.alert-icon-box {
+  width: 40px;
+  height: 40px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.alert-banner-btn {
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  padding: 0.45rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.alert-banner-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   VaxCare Table Styling (Exact match to Image 1 & 3)
+   ========================================================================== */
+.card-vax {
+  background: var(--vax-card-bg);
+  border: 1px solid var(--vax-border);
+  border-radius: 12px;
+  box-shadow: var(--vax-shadow);
+}
+
+.table-vax {
+  width: 100%;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.table-vax thead th {
+  background-color: rgba(241, 245, 249, 0.5);
+  color: var(--vax-text-muted);
+  font-size: 0.725rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--vax-border);
+}
+
+[data-bs-theme="dark"] .table-vax thead th {
+  background-color: rgba(30, 41, 59, 0.8);
+}
+
+.table-vax tbody td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--vax-border);
+  font-size: 0.875rem;
+  color: var(--vax-text-main);
+}
+
+.table-vax tbody tr:hover {
+  background-color: rgba(37, 99, 235, 0.025);
+}
+
+/* Tags & Badges */
+.booking-ref {
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.vaccine-badge-purple {
+  background: #8b5cf6;
+  color: #ffffff;
+  padding: 0.25em 0.6em;
+  border-radius: 6px;
+  font-size: 0.725rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.status-pill {
+  padding: 0.3em 0.75em;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.status-pill-pending {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-pill-vaccinated {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-pill-missed {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Action Buttons in Table */
+.btn-vax-approve {
+  background: #22c55e;
+  color: #ffffff;
+  border: none;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.785rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.btn-vax-approve:hover {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.btn-vax-reject {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.785rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.btn-vax-reject:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.btn-vax-primary {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 0.38rem 0.95rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-vax-primary:hover {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Quick Navigation 4 Cards Grid (Image 4 & 2 Bottom)
+   ========================================================================== */
+.quick-nav-card {
+  background: var(--vax-card-bg);
+  border: 1px solid var(--vax-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: var(--vax-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-nav-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--vax-shadow-card);
+}
+
+.quick-nav-icon {
+  font-size: 1.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.quick-nav-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--vax-text-main);
+  margin-bottom: 0.2rem;
+}
+
+.quick-nav-subtitle {
+  font-size: 0.75rem;
+  color: var(--vax-text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.quick-nav-btn {
+  background: var(--vax-card-bg);
+  border: 1px solid var(--vax-border);
+  color: var(--vax-text-muted);
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.quick-nav-btn:hover {
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
+  border-color: #93c5fd;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer-vax {
+  background: var(--vax-card-bg);
+  border-top: 1px solid var(--vax-border);
+  padding: 0.85rem 1.75rem;
+  font-size: 0.8rem;
+  color: var(--vax-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.footer-vax a {
+  color: var(--vax-text-muted);
+  text-decoration: none;
+  margin-right: 1.25rem;
+}
+
+.footer-vax a:hover {
+  color: var(--vax-primary);
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -100%;
+  }
+  .sidebar.show {
+    left: 0;
+  }
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    z-index: 1030;
+  }
+}
