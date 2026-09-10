@@ -1,7 +1,20 @@
 <?php
-/**
- * VaxCare - Topbar Navbar Template
- */
+
+require_once __DIR__ . '/../db.php';
+
+$appointmentCount = 0;
+
+$result = mysqli_query(
+    $connection,
+    "SELECT COUNT(*) AS total
+     FROM bookings
+     WHERE status = 'Pending'"
+);
+
+if ($result) {
+    $appointmentCount = (int) mysqli_fetch_assoc($result)['total'];
+}
+
 ?>
 <header class="top-navbar d-flex align-items-center justify-content-between">
   <!-- Left: Portal Identification -->
@@ -27,7 +40,7 @@
     <a href="appointments.php" class="top-pill-btn shadow-sm">
       <i class="bi bi-calendar2-check text-warning"></i>
       <span>Appointments</span>
-      <span class="badge rounded-pill bg-danger" style="font-size: 0.7rem;">5</span>
+      <!-- <span class="badge rounded-pill bg-danger" style="font-size: 0.7rem;"></span> -->
     </a>
 
     <!-- Staff Profile Dropdown -->
@@ -56,7 +69,7 @@
         <li>
           <a class="dropdown-item py-2 small d-flex align-items-center gap-2" href="appointments.php">
             <i class="bi bi-calendar-check text-warning"></i> Today's Queue
-            <span class="badge bg-warning ms-auto" style="font-size: 0.65rem;">5</span>
+            <!-- <span class="badge bg-warning ms-auto" style="font-size: 0.65rem;">5</span> -->
           </a>
         </li>
         <li>

@@ -48,7 +48,7 @@ $currentPage = basename($_SERVER['PHP_SELF'] ?? 'index.php');
         <i class="bi bi-calendar-check"></i>
         <span>Appointments Queue</span>
       </div>
-      <span class="badge-pill-count badge-pill-red">1</span>
+      <!-- <span class="badge-pill-count badge-pill-red">1</span> -->
     </a>
 
     <a href="vaccines.php" class="sidebar-link <?php echo ($currentPage === 'vaccines.php') ? 'active' : ''; ?>">
