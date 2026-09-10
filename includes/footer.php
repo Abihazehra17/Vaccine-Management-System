@@ -1,8 +1,5 @@
 <?php
-/**
- * VaxCare - Footer Template
- * Exact match to VaxCare Admin footer styling
- */
+// ??
 ?>
       <!-- VaxCare Footer -->
       <footer class="footer-vax">

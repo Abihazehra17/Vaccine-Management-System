@@ -16,10 +16,10 @@ require_once __DIR__ . '/includes/sidebar.php';
       </div>
       <!-- Top Action Pills (Exact match to Image 4) -->
       <div class="d-flex flex-wrap gap-2">
-        <a href="appointments.php" class="btn btn-sm rounded-pill text-white shadow-sm d-flex align-items-center gap-2" style="background-color: #ef4444; font-size: 0.8rem; font-weight: 600;">
+        <!-- <a href="appointments.php" class="btn btn-sm rounded-pill text-white shadow-sm d-flex align-items-center gap-2" style="background-color: #ef4444; font-size: 0.8rem; font-weight: 600;">
           <i class="bi bi-hospital"></i>
           <span>Today's Queue (5)</span>
-        </a>
+        </a> -->
         <a href="appointments.php" class="btn btn-sm rounded-pill text-dark shadow-sm d-flex align-items-center gap-2" style="background-color: #f59e0b; font-size: 0.8rem; font-weight: 600;">
           <i class="bi bi-clock-history"></i>
           <span>Pending Doses (5)</span>

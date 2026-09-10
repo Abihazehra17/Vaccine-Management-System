@@ -1,7 +1,6 @@
 <?php
 /**
  * VaxCare - Topbar Navbar Template
- * Exact match to VaxCare Admin topbar layout & theme
  */
 ?>
 <header class="top-navbar d-flex align-items-center justify-content-between">

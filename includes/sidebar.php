@@ -1,7 +1,6 @@
 <?php
 /**
  * VaxCare - Hospital Portal Sidebar Template
- * Exact match to VaxCare Admin UI structure & styling
  */
 $currentPage = basename($_SERVER['PHP_SELF'] ?? 'index.php');
 ?>
@@ -36,13 +35,13 @@ $currentPage = basename($_SERVER['PHP_SELF'] ?? 'index.php');
     <!-- Category 1: CHILD & VACCINATION -->
     <div class="sidebar-heading">CHILD & VACCINATION</div>
 
-    <a href="appointments.php?filter=today" class="sidebar-link <?php echo (isset($_GET['filter']) && $_GET['filter'] === 'today') ? 'active' : ''; ?>">
+    <!-- <a href="appointments.php?filter=today" class="sidebar-link  echo (isset($_GET['filter']) && $_GET['filter'] === 'today') ? 'active' : ''; ?>">
       <div class="link-content">
         <i class="bi bi-person-lines-fill"></i>
         <span>Today's Queue</span>
       </div>
       <span class="badge-pill-count badge-pill-orange">5</span>
-    </a>
+    </a> -->
 
     <a href="appointments.php" class="sidebar-link <?php echo ($currentPage === 'appointments.php' && !isset($_GET['filter'])) ? 'active' : ''; ?>">
       <div class="link-content">
