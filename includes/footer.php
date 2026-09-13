@@ -1,5 +1,7 @@
 <?php
-// ??
+/**
+ * VaxCare - Hospital Panel Footer
+ */
 ?>
       <!-- VaxCare Footer -->
       <footer class="footer-vax">

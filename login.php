@@ -1,5 +1,65 @@
 <?php
+require_once __DIR__ . '/db.php';
+
 $pageTitle = 'Hospital Sign In - VaxCare Vaccination Management System';
+$errorMessage = '';
+$identity = '';
+
+// Handle Logout action safely
+if (isset($_GET['logout'])) {
+    unset($_SESSION['hospital_id']);
+    unset($_SESSION['hospital_name']);
+    unset($_SESSION['hospital_email']);
+    unset($_SESSION['role_id']);
+    unset($_SESSION['user_role']);
+}
+
+// Process Login Form Submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $identity = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    if (empty($identity) || empty($password)) {
+        $errorMessage = 'Please enter both your hospital email/username and password.';
+    } else {
+        $stmt = mysqli_prepare(
+            $connection,
+            "SELECT hospital_id, role_id, hospital_name, email, username, password, status
+             FROM hospitals
+             WHERE email = ? OR username = ?
+             LIMIT 1"
+        );
+        mysqli_stmt_bind_param($stmt, "ss", $identity, $identity);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $hospital = mysqli_fetch_assoc($result);
+        mysqli_stmt_close($stmt);
+
+        if ($hospital) {
+            // Support both modern bcrypt hash and legacy plain-text test accounts
+            $passwordValid = password_verify($password, $hospital['password']) || ($password === $hospital['password']);
+
+            if ($passwordValid) {
+                if ($hospital['status'] === 'Inactive') {
+                    $errorMessage = 'Your facility account is inactive. Please contact the administrator.';
+                } else {
+                    $_SESSION['hospital_id']    = (int) $hospital['hospital_id'];
+                    $_SESSION['hospital_name']  = $hospital['hospital_name'];
+                    $_SESSION['hospital_email'] = $hospital['email'];
+                    $_SESSION['role_id']        = (int) ($hospital['role_id'] ?? 3);
+                    $_SESSION['user_role']      = 'Hospital';
+
+                    header("Location: index.php");
+                    exit;
+                }
+            } else {
+                $errorMessage = 'Incorrect password. Please verify and try again.';
+            }
+        } else {
+            $errorMessage = 'No hospital facility registered with that email or username.';
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
@@ -45,14 +105,21 @@ $pageTitle = 'Hospital Sign In - VaxCare Vaccination Management System';
       </div>
     <?php endif; ?>
 
+    <?php if (!empty($errorMessage)): ?>
+      <div class="alert alert-danger border-0 small py-2 px-3 mb-3 d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+        <div><?php echo htmlspecialchars($errorMessage); ?></div>
+      </div>
+    <?php endif; ?>
+
     <!-- Login Form -->
     <form action="login.php" method="POST">
-      <!-- Email / Hospital License -->
+      <!-- Email / Username -->
       <div class="mb-3">
-        <label for="hospEmail" class="form-label small fw-semibold text-muted">Hospital Email / License ID</label>
+        <label for="hospEmail" class="form-label small fw-semibold text-muted">Hospital Email / Username</label>
         <div class="input-group">
           <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-building"></i></span>
-          <input type="text" class="form-control border-start-0 ps-0" id="hospEmail" name="email" placeholder="hospital@vaxcare.gov" value="hospital@vaxcare.gov" required>
+          <input type="text" class="form-control border-start-0 ps-0" id="hospEmail" name="email" placeholder="e.g. shedhospital or shed@gmail.com" value="<?php echo htmlspecialchars(!empty($identity) ? $identity : 'shedhospital'); ?>" required>
         </div>
       </div>
 
@@ -64,7 +131,7 @@ $pageTitle = 'Hospital Sign In - VaxCare Vaccination Management System';
         </div>
         <div class="input-group">
           <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-lock"></i></span>
-          <input type="password" class="form-control border-start-0 border-end-0 ps-0" id="hospPassword" name="password" value="hospital123" required>
+          <input type="password" class="form-control border-start-0 border-end-0 ps-0" id="hospPassword" name="password" value="<?php echo !empty($identity) ? '' : 'shed12345'; ?>" required>
           <button class="btn btn-outline-secondary border-start-0 toggle-password-btn" type="button" data-target="hospPassword" title="Show/Hide Password">
             <i class="bi bi-eye"></i>
           </button>

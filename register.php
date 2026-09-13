@@ -1,5 +1,74 @@
 <?php
+require_once __DIR__ . '/db.php';
+
 $pageTitle = 'Register Hospital Facility - VaxCare Vaccination Management System';
+$errorMessage = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $hospital_name    = trim($_POST['hospital_name'] ?? '');
+    $username         = trim($_POST['username'] ?? '');
+    $email            = trim($_POST['email'] ?? '');
+    $phone            = trim($_POST['phone'] ?? '');
+    $location         = trim($_POST['city'] ?? '');
+    $address          = trim($_POST['address'] ?? '');
+    $password         = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+    $role_id          = 3; // 3 represents Hospital in roles table
+    $status           = 'Active';
+
+    if (empty($hospital_name) || empty($username) || empty($password)) {
+        $errorMessage = 'Hospital Name, Portal Username, and Password are required.';
+    } elseif ($password !== $confirm_password) {
+        $errorMessage = 'Passwords do not match. Please verify your password.';
+    } else {
+        // Check uniqueness of username or email
+        $checkStmt = mysqli_prepare(
+            $connection,
+            "SELECT hospital_id FROM hospitals WHERE username = ? OR (email = ? AND email != '') LIMIT 1"
+        );
+        mysqli_stmt_bind_param($checkStmt, "ss", $username, $email);
+        mysqli_stmt_execute($checkStmt);
+        mysqli_stmt_store_result($checkStmt);
+
+        if (mysqli_stmt_num_rows($checkStmt) > 0) {
+            $errorMessage = 'A hospital facility with this username or email is already registered.';
+            mysqli_stmt_close($checkStmt);
+        } else {
+            mysqli_stmt_close($checkStmt);
+
+            // Hash password for security
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = mysqli_prepare(
+                $connection,
+                "INSERT INTO hospitals (role_id, hospital_name, address, location, phone, email, username, password, status)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            );
+            mysqli_stmt_bind_param(
+                $stmt,
+                "issssssss",
+                $role_id,
+                $hospital_name,
+                $address,
+                $location,
+                $phone,
+                $email,
+                $username,
+                $hashed_password,
+                $status
+            );
+
+            if (mysqli_stmt_execute($stmt)) {
+                mysqli_stmt_close($stmt);
+                header("Location: login.php?registered=1");
+                exit;
+            } else {
+                $errorMessage = 'Registration failed: ' . mysqli_error($connection);
+                mysqli_stmt_close($stmt);
+            }
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
@@ -32,19 +101,26 @@ $pageTitle = 'Register Hospital Facility - VaxCare Vaccination Management System
       <p class="text-muted small">Connect your hospital to VaxCare to receive pediatric appointments</p>
     </div>
 
+    <?php if (!empty($errorMessage)): ?>
+      <div class="alert alert-danger border-0 small py-2 px-3 mb-3 d-flex align-items-center gap-2" role="alert">
+        <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+        <div><?php echo htmlspecialchars($errorMessage); ?></div>
+      </div>
+    <?php endif; ?>
+
     <!-- Registration Form -->
     <form action="register.php" method="POST">
       <div class="row g-3">
         <!-- Hospital Name -->
         <div class="col-12 col-md-7">
           <label class="form-label small fw-semibold text-muted">Hospital / Facility Name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" name="hospital_name" placeholder="e.g. Jinnah Hospital" required>
+          <input type="text" class="form-control" name="hospital_name" placeholder="e.g. Jinnah Hospital" value="<?php echo htmlspecialchars($_POST['hospital_name'] ?? ''); ?>" required>
         </div>
 
-        <!-- License No -->
+        <!-- Portal Username -->
         <div class="col-12 col-md-5">
-          <label class="form-label small fw-semibold text-muted">Govt. License / Reg # <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" name="license_number" placeholder="e.g. HOSP-9042" required>
+          <label class="form-label small fw-semibold text-muted">Portal Username <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="username" placeholder="e.g. jinnahhospital" value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>" required>
         </div>
 
         <!-- Email -->

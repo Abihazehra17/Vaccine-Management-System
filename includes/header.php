@@ -22,8 +22,8 @@ if (!isset($pageTitle)) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- VaxCare Custom Styles -->
-  <link rel="stylesheet" href="assets/css/hospital.css">
+  <!-- VaxCare Custom Styles with cache-busting -->
+  <link rel="stylesheet" href="assets/css/hospital.css?v=<?php echo time(); ?>">
 </head>
 <body>
 <div class="app-wrapper">
